@@ -2,6 +2,10 @@
   "name": "-",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev":"nodemon --exec bun run index.ts",
+    "start": "bun --watch index.ts"
+  },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",
     "@types/bun": "latest",
