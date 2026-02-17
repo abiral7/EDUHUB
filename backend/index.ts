@@ -28,10 +28,16 @@ app.use(cors({
     credentials: true,
 }));
 
+// global error handler middleware
+app.use((err:Error, req:Request, res:Response, next:Function)=>{
+    console.log(err.stack);
+    res.status(500).json({status:"Error", message:err.message});
+});
+
 //health check route
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({status:"OK", message:"Server is healthy"});
 });
 app.listen(PORT,() =>{
-    console.log("Running server at 3000");
+    console.log("Running server at " + process.env.PORT);
 });
