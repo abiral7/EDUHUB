@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express, {type Application,type Request,type Response} from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import cors from "cors"
 
 //Load environment variables from .env file
 dotenv.config();
@@ -20,7 +21,17 @@ app.use(cookieParser()); //Middleware to parse cookies
 if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev"));
 }
+// Cross-Origin Resource Sharing (CORS) middleware
+//credentials allows cookies to be sent with request
+app.use(cors({
+    origin: process.env.CLIENT_URL, 
+    credentials: true,
+}));
 
+//health check route
+app.get("/", (req: Request, res: Response) => {
+    res.status(200).json({status:"OK", message:"Server is healthy"});
+});
 app.listen(PORT,() =>{
     console.log("Running server at 3000");
-})
+});
