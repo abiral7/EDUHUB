@@ -4,6 +4,7 @@ import express, {type Application,type Request,type Response} from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors"
+import mongoose from "mongoose";
 
 //Load environment variables from .env file
 dotenv.config();
@@ -38,6 +39,20 @@ app.use((err:Error, req:Request, res:Response, next:Function)=>{
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({status:"OK", message:"Server is healthy"});
 });
+
+// DB Connection 
+const connectDB = async () => {
+    try{
+        const conn = await mongoose.connect(process.env.MONGO_URL as string);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+
+    }catch(error){
+        console.error(`Error: ${(error as Error).message}`);
+        process.exit(1)
+    }
+}
+
 app.listen(PORT,() =>{
+    connectDB()
     console.log("Running server at " + process.env.PORT);
 });
