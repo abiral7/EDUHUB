@@ -26,7 +26,7 @@ const userSchema: Schema<IUser> = new Schema({
     email: {type: String, required:true},
     password: {type:String, required:true},
     role: {type:String, enum:Object.values(UserRole), required:true, default: UserRole.STUDENT},
-    isActive: {type:Boolean, required:true},
+    isActive: {type:Boolean, default:true},
     studentClass: {type:mongoose.Schema.Types.ObjectId, ref:'Class'},
     teacherSubject: [{type:mongoose.Schema.Types.ObjectId, ref:'Subject'}],
     

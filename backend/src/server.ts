@@ -5,6 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors"
 import connectDB from "./db";
+import userRoutes from "../routes/user";
 
 //Load environment variables from .env file
 dotenv.config();
@@ -39,6 +40,9 @@ app.use((err:Error, req:Request, res:Response, next:Function)=>{
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({status:"OK", message:"Server is healthy"});
 });
+
+// import user routes
+app.use("/api/users", userRoutes)
 
 connectDB().then(()=>{
     app.listen(PORT,() =>{

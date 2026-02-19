@@ -1,6 +1,9 @@
 import type { Request, Response } from "express";
 import User from "../models/user";
 
+// @desc    Register a new user
+// @route   POST /api/users/register
+// @access  public
 export const registerUser = async (req: Request, res: Response):Promise<void> => {
     try {
         const {
