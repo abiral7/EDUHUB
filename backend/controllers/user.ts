@@ -1,10 +1,11 @@
 import type { Request, Response } from "express";
 import User from "../models/user";
+import { generateToken } from "../utils/generateToken";
 
 // @desc    Register a new user
 // @route   POST /api/users/register
-// @access  public
-export const registerUser = async (req: Request, res: Response):Promise<void> => {
+// @access  private Admin Only
+export const register = async (req: Request, res: Response):Promise<void> => {
     try {
         const {
             name, email, password, role, studentClass, teacherSubject, isActive
@@ -44,5 +45,24 @@ export const registerUser = async (req: Request, res: Response):Promise<void> =>
         }
     } catch (error) {
         res.status(500).json({message: "Server Error", error});
+    }
+}
+
+// @desc    Register a new user
+// @route   POST /api/users/register
+// @access   Public
+export const loginUser = async (req: Request, res:Response):Promise<void> => {
+    try {
+         const {email, password }= req.body;
+         const user = await User.findOne({email});
+         if(user && await user.matchPassword(password)){
+            //generate a token
+            generateToken(user.id.toString(),res)
+            res.json(user)
+         }else{
+            res.status(401).json({message:"Invalid email or password"});
+         }
+    } catch (error) {
+        res.status(500).json({message:"Server error",error});
     }
 }
