@@ -1,9 +1,11 @@
 import express from 'express'
 import { loginUser, register } from '../controllers/user'
+import { authorize, protect } from '../middleware/auth';
 
 const userRoutes = express.Router()
 
-userRoutes.post("/register", register);
+//make sure to use protect to get the user token
+userRoutes.post("/register", protect, authorize(["admin", "teacher"]), register);
 
 userRoutes.post("/login", loginUser);
 
