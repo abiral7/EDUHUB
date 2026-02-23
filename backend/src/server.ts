@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors"
 import connectDB from "./db";
 import userRoutes from "../routes/user";
+import activityRouter from "../routes/activitylog";
 
 //Load environment variables from .env file
 dotenv.config();
@@ -43,6 +44,8 @@ app.get("/", (req: Request, res: Response) => {
 
 // import user routes
 app.use("/api/users", userRoutes)
+//import activity routes
+app.use("/api/activity", activityRouter)
 
 connectDB().then(()=>{
     app.listen(PORT,() =>{
